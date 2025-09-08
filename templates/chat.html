@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Chat with {{ user.name }} - LoveConnect{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header text-center">
+                <h4>
+                    <i class="fas fa-comments text-primary"></i> 
+                    Chat with {{ user.name }}
+                </h4>
+            </div>
+            
+            <div class="chat-container" id="chat-messages">
+                {% for message in messages %}
+                <div class="message {% if message.sender_id == current_user.id %}sent{% else %}received{% endif %}">
+                    <div class="message-content">{{ message.content }}</div>
+                    <div class="message-time text-muted small">
+                        {{ message.created_at.strftime('%H:%M') }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="card-footer">
+                <form hx-post="{{ url_for('send_message') }}" 
+                      hx-target="#chat-messages" 
+                      hx-swap="beforeend"
+                      hx-on="htmx:afterRequest: this.reset(); document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;">
+                    <input type="hidden" name="receiver_id" value="{{ user.id }}">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="content" placeholder="Type your message..." required>
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="text-center mt-3">
+            <a href="{{ url_for('matches') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Matches
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+// Auto-scroll to bottom on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const chatContainer = document.getElementById('chat-messages');
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+});
+</script>
+{% endblock %}

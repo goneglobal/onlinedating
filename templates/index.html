@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="floating-hearts">
+        <i class="fas fa-heart heart" style="left: 10%; animation-delay: 0s;"></i>
+        <i class="fas fa-heart heart" style="left: 20%; animation-delay: 1s;"></i>
+        <i class="fas fa-heart heart" style="left: 30%; animation-delay: 2s;"></i>
+        <i class="fas fa-heart heart" style="left: 40%; animation-delay: 3s;"></i>
+        <i class="fas fa-heart heart" style="left: 50%; animation-delay: 4s;"></i>
+        <i class="fas fa-heart heart" style="left: 60%; animation-delay: 5s;"></i>
+        <i class="fas fa-heart heart" style="left: 70%; animation-delay: 0.5s;"></i>
+        <i class="fas fa-heart heart" style="left: 80%; animation-delay: 1.5s;"></i>
+        <i class="fas fa-heart heart" style="left: 90%; animation-delay: 2.5s;"></i>
+    </div>
+    
+    <h1 class="hero-title pulse">💕 LoveConnect 💕</h1>
+    <p class="hero-subtitle">Find your perfect match in a colorful world of love!</p>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-3">
+            <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg w-100">
+                <i class="fas fa-user-plus"></i> Join Now
+            </a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <a href="{{ url_for('login') }}" class="btn btn-success btn-lg w-100">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+        </div>
+    </div>
+    
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-search fa-3x text-primary mb-3"></i>
+                    <h5>Discover</h5>
+                    <p>Browse through amazing profiles and find someone special</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-heart fa-3x text-danger mb-3"></i>
+                    <h5>Match</h5>
+                    <p>Like profiles and get matched with people who like you back</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-comments fa-3x text-info mb-3"></i>
+                    <h5>Chat</h5>
+                    <p>Start conversations and build meaningful connections</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

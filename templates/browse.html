@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Browse Profiles - LoveConnect{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+    <h2 class="text-white">
+        <i class="fas fa-search"></i> Discover Amazing People
+    </h2>
+</div>
+
+{% if users %}
+<div class="row justify-content-center">
+    {% for user in users %}
+    <div class="col-md-4 mb-4">
+        <div class="card profile-card">
+            <div class="profile-image">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ user.name }}, {{ user.age }}</h5>
+                {% if user.location %}
+                <p class="text-muted">
+                    <i class="fas fa-map-marker-alt"></i> {{ user.location }}
+                </p>
+                {% endif %}
+                {% if user.bio %}
+                <p class="card-text">{{ user.bio[:100] }}{% if user.bio|length > 100 %}...{% endif %}</p>
+                {% endif %}
+                {% if user.interests %}
+                <p class="text-primary">
+                    <i class="fas fa-heart"></i> {{ user.interests[:50] }}{% if user.interests|length > 50 %}...{% endif %}
+                </p>
+                {% endif %}
+            </div>
+            <button class="like-button" 
+                    hx-post="{{ url_for('like_user', user_id=user.id) }}"
+                    hx-trigger="click"
+                    hx-target="#notifications"
+                    hx-swap="innerHTML">
+                <i class="fas fa-heart"></i>
+            </button>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center">
+    <div class="card">
+        <div class="card-body">
+            <i class="fas fa-heart-broken fa-4x text-muted mb-3"></i>
+            <h4>No more profiles to show!</h4>
+            <p class="text-muted">You've seen all available profiles. Check back later for new members!</p>
+            <a href="{{ url_for('matches') }}" class="btn btn-primary">
+                <i class="fas fa-heart"></i> View Your Matches
+            </a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div id="notifications"></div>
+
+<script>
+// Handle like responses
+document.body.addEventListener('htmx:afterRequest', function(event) {
+    if (event.detail.xhr.responseText) {
+        try {
+            const response = JSON.parse(event.detail.xhr.responseText);
+            if (response.status === 'match') {
+                showMatchNotification(response.message);
+            } else if (response.status === 'liked') {
+                showLikeNotification(response.message);
+            }
+        } catch (e) {
+            // Handle non-JSON responses
+        }
+    }
+});
+
+function showMatchNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'match-notification pulse';
+    notification.innerHTML = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+function showLikeNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'alert alert-success position-fixed';
+    notification.style.top = '20px';
+    notification.style.right = '20px';
+    notification.style.zIndex = '1000';
+    notification.innerHTML = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 2000);
+}
+</script>
+{% endblock %}
