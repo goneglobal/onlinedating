@@ -1,0 +1,27 @@
+/* Compiled CSS will appear here after running SASS. */
+body {
+	background: #f5f5f5;
+	font-family: Arial, sans-serif;
+}
+
+.container {
+	max-width: 600px;
+	margin: 40px auto;
+	background: #fff;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+	padding: 2rem;
+	border-radius: 8px;
+}
+
+#user-list {
+	margin-top: 2rem;
+}
+
+.user-card {
+	background: #e91e63;
+	color: #fff;
+	padding: 1rem;
+	margin-bottom: 1rem;
+	border-radius: 6px;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
